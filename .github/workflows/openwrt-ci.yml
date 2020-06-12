@@ -54,12 +54,13 @@ jobs:
           df -h
       - name: Update feeds
         run: |
+          ./scripts/feeds clean
           ./scripts/feeds update -a
           ./scripts/feeds install -a
       
       - name: Load custom configuration
         run: |
-          cp -f gdockfull128.config ./lede/.config
+          cp -f kai.config ./lede/.config
           chmod +x diy.sh
           cd lede
           ../diy.sh
