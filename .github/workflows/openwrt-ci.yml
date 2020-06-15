@@ -10,13 +10,17 @@
 name: OpenWrt-CI
 
 on:
-  push:
-    branches: 
-      - master
+ release:
+   types: [published]
+ push:
+   branches: 
+     - master
   # schedule:
   #   - cron: 0 20 * * *
-  # release:
-  #   types: [published]
+  
+env:
+  SSH_ACTIONS: true
+  TZ: Asia/Shanghai
 
 jobs:
 
@@ -71,6 +75,10 @@ jobs:
           cd lede
           ../diy.sh
           make defconfig
+          
+      - name: SSH connection to Actions
+        uses: P3TERX/debugger-action@master
+        if: env.SSH_ACTIONS == 'true'
       
       - name: Make download
         run: |
